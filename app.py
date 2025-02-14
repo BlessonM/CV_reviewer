@@ -113,10 +113,7 @@ except Exception as e:
     st.error(f"Could not connect to MongoDB: {e}")
     st.stop()
 
-# Clear collections initially
-#jd_col.delete_many({})  # Delete all documents in jd_col
-#cv_col.delete_many({})  # Delete all documents in cv_col
-st.info("Cleared existing data in 'jd_col' and 'cv_col' collections.")
+
 
 # --- Streamlit App ---
 st.title("CV Reviewer")
@@ -170,6 +167,12 @@ if st.button("Save Data"):
                 st.error(f"Error processing {uploaded_file.name}: {e}")
     else:
         st.warning("No PDF files uploaded.")
+
+if st.button("clear"):
+    # Clear collections initially
+    jd_col.delete_many({})  # Delete all documents in jd_col
+    cv_col.delete_many({})  # Delete all documents in cv_col
+    st.info("Cleared existing data in 'jd_col' and 'cv_col' collections.")        
 
 jd_documents = list(jd_col.find({}, {"_id": 0, "keywords": 0}))
       
